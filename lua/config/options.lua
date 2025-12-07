@@ -6,7 +6,7 @@
 vim.opt.list = true
 
 vim.opt.listchars = {
-  tab = "->",
+  tab = "-->",
   space = "·",    -- space as `·`
   trail = "·",    -- spaces in the end of line
   extends = "▶",
