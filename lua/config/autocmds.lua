@@ -11,11 +11,9 @@ vim.g.autoformat = false
 
 local autocmd = vim.api.nvim_create_autocmd
 
--- only in c cpp h
-autocmd({ "FileType" }, {
-  pattern = { "c", "cpp", "h" },
+autocmd("FileType", {
+  pattern = { "c", "cpp", "objc", "objcpp", "cuda", "text" },
   callback = function()
-    -- show a colorcolumn at 81
-    vim.wo.colorcolumn = "81"
+    vim.opt_local.colorcolumn = "81"
   end,
 })
