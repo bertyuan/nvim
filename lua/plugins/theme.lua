@@ -189,7 +189,7 @@ return {
           vim.api.nvim_set_hl(0, "@string", { fg = "#73c936" })
           vim.api.nvim_set_hl(0, "@string.documentation", { fg = "#73c936" })
 
-          -- Change all #565f73 (niagara-1/dark_niagara) highlight groups to white.
+          -- change all #565f73 (niagara-1/dark_niagara) highlight groups to white.
           vim.api.nvim_set_hl(0, "GruberDarkerDarkNiagara", { fg = "#ffffff" })
           vim.api.nvim_set_hl(0, "GruberDarkerDarkNiagaraBold", { fg = "#ffffff", bold = true })
           vim.api.nvim_set_hl(0, "@property", { fg = "#ffffff" })
@@ -198,6 +198,13 @@ return {
           vim.api.nvim_set_hl(0, "CmpItemKindUnit", { fg = "#ffffff" })
           vim.api.nvim_set_hl(0, "CmpItemKindSnippet", { fg = "#ffffff" })
 
+          -- set functions/methods/constructors to white and bold
+          vim.api.nvim_set_hl(0, "Function", { fg = "#ffffff", bold = true })
+          vim.api.nvim_set_hl(0, "@function", { fg = "#ffffff", bold = true })
+          vim.api.nvim_set_hl(0, "@function.call", { fg = "#ffffff", bold = true })
+          vim.api.nvim_set_hl(0, "@method", { fg = "#ffffff", bold = true })
+          vim.api.nvim_set_hl(0, "@method.call", { fg = "#ffffff", bold = true })
+          vim.api.nvim_set_hl(0, "@constructor", { fg = "#ffffff", bold = true })
         end,
       })
     end,
@@ -232,3 +239,32 @@ return {
   --   end,
   -- },
 }
+
+
+
+-- -- ring0dark.nvim
+-- return {
+--   {
+--     "ring0-rootkit/ring0-dark.nvim",
+--     lazy = false,
+--     priority = 1000,
+--     config = function()
+--       vim.cmd.colorscheme("ring0dark")
+--     end,
+--   },
+--
+--   {
+--     "LazyVim/LazyVim",
+--     opts = {
+--       colorscheme = "ring0dark",
+--     },
+--   },
+--
+--   {
+--     "nvim-lualine/lualine.nvim",
+--     opts = function(_, opts)
+--       opts.options.theme = "auto"
+--     end,
+--   },
+-- }
+
