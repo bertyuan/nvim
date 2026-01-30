@@ -116,20 +116,85 @@
 --   },
 -- }
 
--- Version 4
+-- -- Version 4
+-- return {
+--   -- load colorscheme (RRethy/nvim-base16)
+--   {
+--     "RRethy/nvim-base16",
+--     lazy = false,
+--     priority = 1000,
+--   },
+--
+--   {
+--     "LazyVim/LazyVim",
+--     opts = {
+--       -- or: base16-gruvbox-dark-hard
+--       colorscheme = "base16-default-dark",
+--     },
+--   },
+--
+--   {
+--     "nvim-lualine/lualine.nvim",
+--     opts = function(_, opts)
+--       opts.options.theme = "auto"
+--     end,
+--   },
+--
+--   {
+--     "nvim-treesitter/nvim-treesitter",
+--     opts = function()
+--       local function fix_comment_hl()
+--         local hl_info = vim.api.nvim_get_hl(0, { name = "Comment", link = false })
+--         ---@type vim.api.keyset.highlight
+--         local comment_hl = {
+--           fg = hl_info.fg,
+--           bg = hl_info.bg,
+--           bold = hl_info.bold,
+--         }
+--         vim.api.nvim_set_hl(0, "Comment", comment_hl)
+--         vim.api.nvim_set_hl(0, "@comment", { link = "Comment" })
+--       end
+--
+--       vim.api.nvim_create_autocmd("ColorScheme", {
+--         pattern = "*",
+--         callback = fix_comment_hl,
+--       })
+--
+--       vim.schedule(fix_comment_hl)
+--     end,
+--   },
+-- }
+
 return {
-  -- load colorscheme (RRethy/nvim-base16)
   {
-    "RRethy/nvim-base16",
+    "blazkowolf/gruber-darker.nvim",
     lazy = false,
     priority = 1000,
+    opts = {
+      bold = true,
+      italic = {
+        strings = false,
+        comments = false,
+      },
+    },
+    config = function(_, opts)
+      require("gruber-darker").setup(opts)
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        pattern = "gruber-darker",
+        callback = function()
+          vim.api.nvim_set_hl(0, "String", { fg = "#73c936" })
+          vim.api.nvim_set_hl(0, "Character", { fg = "#73c936" })
+          vim.api.nvim_set_hl(0, "@string", { fg = "#73c936" })
+          vim.api.nvim_set_hl(0, "@string.documentation", { fg = "#73c936" })
+        end,
+      })
+    end,
   },
 
   {
     "LazyVim/LazyVim",
     opts = {
-      -- or: base16-gruvbox-dark-hard
-      colorscheme = "base16-default-dark",
+      colorscheme = "gruber-darker",
     },
   },
 
@@ -137,30 +202,21 @@ return {
     "nvim-lualine/lualine.nvim",
     opts = function(_, opts)
       opts.options.theme = "auto"
+      -- or: opts.options.theme = "gruber-darker"
     end,
   },
 
+  -- 3) 可选：如果你仍然想强制 @comment 链接到 Comment（一般不需要）
   {
     "nvim-treesitter/nvim-treesitter",
-    opts = function()
-      local function fix_comment_hl()
-        local hl_info = vim.api.nvim_get_hl(0, { name = "Comment", link = false })
-        ---@type vim.api.keyset.highlight
-        local comment_hl = {
-          fg = hl_info.fg,
-          bg = hl_info.bg,
-          bold = hl_info.bold,
-        }
-        vim.api.nvim_set_hl(0, "Comment", comment_hl)
-        vim.api.nvim_set_hl(0, "@comment", { link = "Comment" })
-      end
-
+    opts = function(_, opts)
       vim.api.nvim_create_autocmd("ColorScheme", {
         pattern = "*",
-        callback = fix_comment_hl,
+        callback = function()
+          vim.api.nvim_set_hl(0, "@comment", { link = "Comment" })
+        end,
       })
-
-      vim.schedule(fix_comment_hl)
+      return opts
     end,
   },
 }
