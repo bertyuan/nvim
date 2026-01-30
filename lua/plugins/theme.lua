@@ -182,10 +182,22 @@ return {
       vim.api.nvim_create_autocmd("ColorScheme", {
         pattern = "gruber-darker",
         callback = function()
+
+          -- use original green for strings from tsoding
           vim.api.nvim_set_hl(0, "String", { fg = "#73c936" })
           vim.api.nvim_set_hl(0, "Character", { fg = "#73c936" })
           vim.api.nvim_set_hl(0, "@string", { fg = "#73c936" })
           vim.api.nvim_set_hl(0, "@string.documentation", { fg = "#73c936" })
+
+          -- Change all #565f73 (niagara-1/dark_niagara) highlight groups to white.
+          vim.api.nvim_set_hl(0, "GruberDarkerDarkNiagara", { fg = "#ffffff" })
+          vim.api.nvim_set_hl(0, "GruberDarkerDarkNiagaraBold", { fg = "#ffffff", bold = true })
+          vim.api.nvim_set_hl(0, "@property", { fg = "#ffffff" })
+          vim.api.nvim_set_hl(0, "@property.css", { fg = "#ffffff" })
+          vim.api.nvim_set_hl(0, "CmpItemKindProperty", { fg = "#ffffff" })
+          vim.api.nvim_set_hl(0, "CmpItemKindUnit", { fg = "#ffffff" })
+          vim.api.nvim_set_hl(0, "CmpItemKindSnippet", { fg = "#ffffff" })
+
         end,
       })
     end,
