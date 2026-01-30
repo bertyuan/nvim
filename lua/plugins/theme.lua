@@ -206,17 +206,17 @@ return {
     end,
   },
 
-  -- 3) 可选：如果你仍然想强制 @comment 链接到 Comment（一般不需要）
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = function(_, opts)
-      vim.api.nvim_create_autocmd("ColorScheme", {
-        pattern = "*",
-        callback = function()
-          vim.api.nvim_set_hl(0, "@comment", { link = "Comment" })
-        end,
-      })
-      return opts
-    end,
-  },
+  -- -- 3) optional
+  -- {
+  --   "nvim-treesitter/nvim-treesitter",
+  --   opts = function(_, opts)
+  --     vim.api.nvim_create_autocmd("ColorScheme", {
+  --       pattern = "*",
+  --       callback = function()
+  --         vim.api.nvim_set_hl(0, "@comment", { link = "Comment" })
+  --       end,
+  --     })
+  --     return opts
+  --   end,
+  -- },
 }
