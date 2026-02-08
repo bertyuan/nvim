@@ -15,5 +15,6 @@ autocmd("FileType", {
   pattern = { "c", "cpp", "objc", "objcpp", "cuda", "text" },
   callback = function()
     vim.opt_local.colorcolumn = "81"
+    -- vim.opt_local.textwidth = 80
   end,
 })
