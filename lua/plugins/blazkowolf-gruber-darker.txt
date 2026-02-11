@@ -1,0 +1,49 @@
+return {
+ {
+   "blazkowolf/gruber-darker.nvim",
+   opts = {
+     bold = true,
+     italic = {
+       strings = false,
+     },
+   },
+ },
+
+  {
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = "gruber-darker",
+    },
+  },
+
+  {
+    "nvim-lualine/lualine.nvim",
+    opts = function(_, opts)
+      opts.options.theme = "auto"
+    end,
+  },
+
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = function()
+      local function fix_comment_hl()
+        local hl_info = vim.api.nvim_get_hl(0, { name = "Comment", link = false })
+        ---@type vim.api.keyset.highlight
+        local comment_hl = {
+          fg = hl_info.fg,
+          bg = hl_info.bg,
+          bold = hl_info.bold,
+        }
+        vim.api.nvim_set_hl(0, "Comment", comment_hl)
+        vim.api.nvim_set_hl(0, "@comment", { link = "Comment" })
+      end
+
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        pattern = "*",
+        callback = fix_comment_hl,
+      })
+
+      vim.schedule(fix_comment_hl)
+    end,
+  },
+}
