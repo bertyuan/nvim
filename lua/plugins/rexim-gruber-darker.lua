@@ -14,67 +14,29 @@ return {
     },
     config = function(_, opts)
       require("gruber-darker").setup(opts)
+
+      local fg      = "#e4e4ef"
+      local green   = "#73c936"
+      local quartz  = "#95a99f"
+      local yellow  = "#ffdd33"
+      local bg      = "#181818"
+      local bg_1    = "#101010"
+      local bg1     = "#282828"
+
+      -- =============================================
+      -- 全局修正：只修正色值偏差，不改变高亮逻辑
+      -- 这些对所有语言都是正确的
+      -- =============================================
       vim.api.nvim_create_autocmd("ColorScheme", {
         pattern = "gruber-darker",
         callback = function()
-
-          local fg      = "#e4e4ef"
-          local green   = "#73c936"
-          local quartz  = "#95a99f"
-          local yellow  = "#ffdd33"
-          local bg      = "#181818"
-          local bg_1    = "#101010"
-          local bg1     = "#282828"
-
-          -- ========================
-          -- 基础色值修正
-          -- ========================
+          -- fg 色值修正: 原版 #e4e4ef, blazkowolf 用了 #e4e4e4
           vim.api.nvim_set_hl(0, "Normal", { fg = fg, bg = bg })
           vim.api.nvim_set_hl(0, "NormalNC", { fg = fg, bg = bg })
           vim.api.nvim_set_hl(0, "NormalFloat", { fg = fg, bg = bg1 })
           vim.api.nvim_set_hl(0, "NormalSB", { fg = fg, bg = bg_1 })
 
-          -- ========================
-          -- keyword -> yellow + bold
-          -- ========================
-          -- 旧版名称
-          vim.api.nvim_set_hl(0, "@conditional", { fg = yellow, bold = true })
-          vim.api.nvim_set_hl(0, "@conditional.ternary", { fg = fg })
-          vim.api.nvim_set_hl(0, "@constant.builtin", { fg = yellow, bold = true })
-          -- 新版名称
-          vim.api.nvim_set_hl(0, "@keyword.conditional", { fg = yellow, bold = true })
-          vim.api.nvim_set_hl(0, "@keyword.conditional.ternary", { fg = fg })
-          vim.api.nvim_set_hl(0, "@keyword.repeat", { fg = yellow, bold = true })
-          vim.api.nvim_set_hl(0, "@keyword.return", { fg = yellow, bold = true })
-          vim.api.nvim_set_hl(0, "@keyword.operator", { fg = yellow, bold = true })
-          vim.api.nvim_set_hl(0, "@keyword.exception", { fg = yellow, bold = true })
-
-          -- ========================
-          -- type -> quartz
-          -- ========================
-          vim.api.nvim_set_hl(0, "@type.builtin", { fg = quartz })
-          -- const/volatile: simpc 中属于 keywords -> yellow+bold
-          -- 但 @type.qualifier fallback 到 @type -> quartz, 必须修正
-          vim.api.nvim_set_hl(0, "@type.qualifier", { fg = yellow, bold = true })
-
-          -- ========================
-          -- preprocessor -> quartz
-          -- ========================
-          vim.api.nvim_set_hl(0, "@keyword.import", { fg = quartz })
-          vim.api.nvim_set_hl(0, "@keyword.directive", { fg = quartz })
-          vim.api.nvim_set_hl(0, "@keyword.directive.define", { fg = quartz })
-          vim.api.nvim_set_hl(0, "Include", { fg = quartz })
-          vim.api.nvim_set_hl(0, "PreProc", { fg = quartz })
-          vim.api.nvim_set_hl(0, "Define", { fg = quartz })
-          vim.api.nvim_set_hl(0, "Macro", { fg = quartz })
-          vim.api.nvim_set_hl(0, "PreCondit", { fg = quartz })
-          vim.api.nvim_set_hl(0, "@preproc", { fg = quartz })
-          vim.api.nvim_set_hl(0, "@define", { fg = quartz })
-          vim.api.nvim_set_hl(0, "@function.macro", { fg = quartz })
-
-          -- ========================
-          -- string -> green #73c936
-          -- ========================
+          -- green 色值修正: 原版 #73c936, blazkowolf 用了 #73d936
           vim.api.nvim_set_hl(0, "String", { fg = green })
           vim.api.nvim_set_hl(0, "Character", { fg = green })
           vim.api.nvim_set_hl(0, "@string", { fg = green })
@@ -82,78 +44,86 @@ return {
           vim.api.nvim_set_hl(0, "@character", { fg = green })
           vim.api.nvim_set_hl(0, "@comment.documentation", { fg = green })
 
-          -- ========================
-          -- 以下全部是 simpc 不高亮的 -> fg
-          -- ========================
+          -- @type.builtin 修正: 原版 type-face -> quartz, blazkowolf 用了 yellow
+          vim.api.nvim_set_hl(0, "@type.builtin", { fg = quartz })
 
-          -- 函数名
-          vim.api.nvim_set_hl(0, "Function", { fg = fg })
-          vim.api.nvim_set_hl(0, "@function", { fg = fg })
-          vim.api.nvim_set_hl(0, "@function.call", { fg = fg })
-          vim.api.nvim_set_hl(0, "@function.builtin", { fg = fg })
-          vim.api.nvim_set_hl(0, "@method", { fg = fg })
-          vim.api.nvim_set_hl(0, "@method.call", { fg = fg })
-          vim.api.nvim_set_hl(0, "@constructor", { fg = fg })
-          vim.api.nvim_set_hl(0, "@function.method", { fg = fg })
-          vim.api.nvim_set_hl(0, "@function.method.call", { fg = fg })
+          -- preprocessor 修正: 新版 TS 用 @keyword.import/@keyword.directive
+          vim.api.nvim_set_hl(0, "@keyword.import", { fg = quartz })
+          vim.api.nvim_set_hl(0, "@keyword.directive", { fg = quartz })
+          vim.api.nvim_set_hl(0, "@keyword.directive.define", { fg = quartz })
 
-          -- 变量名/参数名
-          vim.api.nvim_set_hl(0, "Identifier", { fg = fg })
-          vim.api.nvim_set_hl(0, "@variable", { fg = fg })
-          vim.api.nvim_set_hl(0, "@variable.builtin", { fg = fg })
-          vim.api.nvim_set_hl(0, "@variable.parameter", { fg = fg })
-          vim.api.nvim_set_hl(0, "@parameter", { fg = fg })
-          vim.api.nvim_set_hl(0, "@variable.member", { fg = fg })
-          vim.api.nvim_set_hl(0, "@module", { fg = fg })
-          vim.api.nvim_set_hl(0, "@namespace", { fg = fg })
-
-          -- 数字
-          vim.api.nvim_set_hl(0, "Number", { fg = fg })
-          vim.api.nvim_set_hl(0, "Float", { fg = fg })
-          vim.api.nvim_set_hl(0, "@number", { fg = fg })
-          vim.api.nvim_set_hl(0, "@float", { fg = fg })
-
-          -- 常量
-          vim.api.nvim_set_hl(0, "Constant", { fg = fg })
-          vim.api.nvim_set_hl(0, "@constant", { fg = fg })
-
-          -- 括号 {} () []
-          vim.api.nvim_set_hl(0, "@punctuation.bracket", { fg = fg })
-
-          -- 特殊标点
-          vim.api.nvim_set_hl(0, "@punctuation.special", { fg = fg })
-
-          -- 分隔符 ; . ,
-          vim.api.nvim_set_hl(0, "@punctuation.delimiter", { fg = fg })
-          vim.api.nvim_set_hl(0, "Delimiter", { fg = fg })
-
-          -- 字段/属性
-          vim.api.nvim_set_hl(0, "@field", { fg = fg })
-          vim.api.nvim_set_hl(0, "@property", { fg = fg })
-          vim.api.nvim_set_hl(0, "@property.css", { fg = fg })
-
-          -- 运算符
-          vim.api.nvim_set_hl(0, "Operator", { fg = fg })
-          vim.api.nvim_set_hl(0, "@operator", { fg = fg })
-
-          -- Special
-          vim.api.nvim_set_hl(0, "Special", { fg = fg })
-          vim.api.nvim_set_hl(0, "SpecialChar", { fg = fg })
-          vim.api.nvim_set_hl(0, "@character.special", { fg = fg })
-          vim.api.nvim_set_hl(0, "@string.regex", { fg = fg })
-          vim.api.nvim_set_hl(0, "@string.escape", { fg = fg })
-          vim.api.nvim_set_hl(0, "@string.special", { fg = fg })
-
-          -- Tag
-          vim.api.nvim_set_hl(0, "Tag", { fg = fg })
-
-          -- ========================
           -- 禁用 LSP semantic highlighting
-          -- ========================
           for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
             vim.api.nvim_set_hl(0, group, {})
           end
+        end,
+      })
 
+      -- =============================================
+      -- C/C++ 专用：完全还原 simpc-mode 极简风格
+      -- 只在 C/C++ 缓冲区中生效
+      -- =============================================
+      local c_overrides = {
+        -- 函数名: simpc 不高亮
+        ["@function"]              = { fg = fg },
+        ["@function.call"]         = { fg = fg },
+        ["@function.builtin"]      = { fg = fg },
+        ["@function.macro"]        = { fg = quartz },
+        ["@function.method"]       = { fg = fg },
+        ["@function.method.call"]  = { fg = fg },
+        ["@method"]                = { fg = fg },
+        ["@method.call"]           = { fg = fg },
+        ["@constructor"]           = { fg = fg },
+        -- 变量名/参数名
+        ["@variable"]              = { fg = fg },
+        ["@variable.builtin"]      = { fg = fg },
+        ["@variable.parameter"]    = { fg = fg },
+        ["@variable.member"]       = { fg = fg },
+        ["@parameter"]             = { fg = fg },
+        ["@module"]                = { fg = fg },
+        -- 数字
+        ["@number"]                = { fg = fg },
+        ["@float"]                 = { fg = fg },
+        -- 常量
+        ["@constant"]              = { fg = fg },
+        ["@constant.builtin"]      = { fg = yellow, bold = true },
+        -- 括号/标点
+        ["@punctuation.bracket"]   = { fg = fg },
+        ["@punctuation.delimiter"] = { fg = fg },
+        ["@punctuation.special"]   = { fg = fg },
+        -- 字段/属性
+        ["@field"]                 = { fg = fg },
+        ["@property"]              = { fg = fg },
+        -- 运算符
+        ["@operator"]              = { fg = fg },
+        -- 特殊
+        ["@character.special"]     = { fg = fg },
+        ["@string.regex"]          = { fg = fg },
+        ["@string.escape"]         = { fg = fg },
+        ["@string.special"]        = { fg = fg },
+        -- keyword 修正
+        ["@conditional"]                = { fg = yellow, bold = true },
+        ["@conditional.ternary"]        = { fg = fg },
+        ["@keyword.conditional"]        = { fg = yellow, bold = true },
+        ["@keyword.conditional.ternary"] = { fg = fg },
+        ["@keyword.repeat"]             = { fg = yellow, bold = true },
+        ["@keyword.return"]             = { fg = yellow, bold = true },
+        ["@keyword.operator"]           = { fg = yellow, bold = true },
+        ["@keyword.exception"]          = { fg = yellow, bold = true },
+        -- const/volatile 是 keyword 不是 type
+        ["@type.qualifier"]             = { fg = yellow, bold = true },
+      }
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "c", "cpp", "h" },
+        callback = function(ev)
+          for group, hl in pairs(c_overrides) do
+            -- 使用 ns=0 + priority 或直接对 buffer 设置
+            vim.api.nvim_set_hl(0, group .. ".c", hl)
+            vim.api.nvim_set_hl(0, group .. ".cpp", hl)
+          end
+          -- 同时对 vim 内置组覆盖 (buffer-local 无法实现,
+          -- 但 .c/.cpp 后缀的 TS 组只对对应语言生效)
         end,
       })
     end,
