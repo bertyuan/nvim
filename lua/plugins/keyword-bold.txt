@@ -1,0 +1,25 @@
+return {
+  {
+    "LazyVim/LazyVim",
+    opts = function(_, opts)
+      -- apply after colorscheme loads
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        callback = function()
+          -- Main treesitter keyword groups
+          vim.api.nvim_set_hl(0, "@keyword", { bold = true })
+          vim.api.nvim_set_hl(0, "@keyword.function", { bold = true })
+          vim.api.nvim_set_hl(0, "@keyword.operator", { bold = true })
+          vim.api.nvim_set_hl(0, "@keyword.return", { bold = true })
+          vim.api.nvim_set_hl(0, "@keyword.conditional", { bold = true })
+          vim.api.nvim_set_hl(0, "@keyword.repeat", { bold = true })
+          vim.api.nvim_set_hl(0, "@keyword.exception", { bold = true })
+          vim.api.nvim_set_hl(0, "@keyword.import", { bold = true })
+          vim.api.nvim_set_hl(0, "@keyword.directive", { bold = true })
+
+          -- legacy fallback group used by some filetypes/themes
+          vim.api.nvim_set_hl(0, "Keyword", { bold = true })
+        end,
+      })
+    end,
+  },
+}
