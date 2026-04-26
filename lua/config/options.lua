@@ -8,12 +8,10 @@ vim.opt.list = true
 -- use system clipboard
 vim.opt.clipboard = "unnamedplus"
 
+vim.opt.list = true
 vim.opt.listchars = {
-  tab = "-->",
-  space = "·",    -- space as `·`
-  trail = "·",    -- spaces in the end of line
-  extends = "▶",
-  precedes = "◀",
+  tab = "→ ",
+  space = "·",
   nbsp = "␣",
 }
 
@@ -23,3 +21,5 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.spellcapcheck = ""
   end,
 })
+
+vim.opt.shortmess:remove("I")
